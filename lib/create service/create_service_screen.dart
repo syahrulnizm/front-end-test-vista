@@ -174,7 +174,7 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
                     horizontal: 16,
                     vertical: 18,
                   ),
-                  prefixText: '\RM ',
+                  prefixText: 'RM ',
                   prefixStyle: TextStyle(
                     fontSize: 15,
                     color: Colors.grey[800],
