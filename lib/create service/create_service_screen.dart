@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end_test_vista/widgets/appbar.dart';
 import 'package:front_end_test_vista/create service/create_service_bloc.dart';
+import 'package:front_end_test_vista/list company/list_company_bloc.dart';
 import 'package:provider/provider.dart';
 
 class CreateServiceScreen extends StatefulWidget {
@@ -15,21 +16,7 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
-  String? _selectedCompany;
-
-  // hardcode list
-  final List<String> companies = [
-    'Vista Summerose Sdn Bhd',
-    'Heiktek Sdn Bhd',
-    'Google Sdn Bhd.'
-  ];
-
-  // Map company name to fake ID for demo
-  int? _getCompanyId(String? name) {
-    if (name == null) return null;
-    final idx = companies.indexOf(name);
-    return idx == -1 ? null : idx + 1;
-  }
+  Company? _selectedCompany;
 
   @override
   void dispose() {
@@ -41,13 +28,17 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => CreateServiceBloc(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CreateServiceBloc()),
+        ChangeNotifierProvider(create: (_) => ListCompanyBloc()..fetchCompanies()),
+      ],
       child: Scaffold(
         backgroundColor: const Color(0xFFF8FAFD),
         appBar: const CustomAppBar(title: 'Create Service'),
-        body: Consumer<CreateServiceBloc>(
-          builder: (context, bloc, _) {
+        body: Consumer2<CreateServiceBloc, ListCompanyBloc>(
+          builder: (context, bloc, companyBloc, _) {
+            final companies = companyBloc.companies;
             return SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Form(
@@ -65,36 +56,41 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
                           width: 1,
                         ),
                       ),
-                      child: DropdownButtonFormField<String>(
-                        value: _selectedCompany,
-                        decoration: const InputDecoration(
-                          labelText: 'Company',
-                          border: InputBorder.none,
-                        ),
-                        icon: Icon(Icons.arrow_drop_down, color: Colors.grey[600]),
-                        dropdownColor: Colors.white,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey[800],
-                        ),
-                        items: companies.map((String company) {
-                          return DropdownMenuItem<String>(
-                            value: company,
-                            child: Text(company),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedCompany = newValue;
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please select a company';
-                          }
-                          return null;
-                        },
-                      ),
+                      child: companyBloc.isLoading
+                          ? const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Center(child: CircularProgressIndicator()),
+                            )
+                          : DropdownButtonFormField<Company>(
+                              value: _selectedCompany,
+                              decoration: const InputDecoration(
+                                labelText: 'Company',
+                                border: InputBorder.none,
+                              ),
+                              icon: Icon(Icons.arrow_drop_down, color: Colors.grey[600]),
+                              dropdownColor: Colors.white,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey[800],
+                              ),
+                              items: companies.map((company) {
+                                return DropdownMenuItem<Company>(
+                                  value: company,
+                                  child: Text(company.name),
+                                );
+                              }).toList(),
+                              onChanged: (Company? newValue) {
+                                setState(() {
+                                  _selectedCompany = newValue;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'Please select a company';
+                                }
+                                return null;
+                              },
+                            ),
                     ),
                     const SizedBox(height: 16),
                     // service name field
@@ -229,10 +225,9 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
                             ? null
                             : () async {
                                 if (_formKey.currentState!.validate()) {
-                                  final companyId = _getCompanyId(_selectedCompany);
-                                  if (companyId == null) return;
+                                  if (_selectedCompany == null) return;
                                   await bloc.createService(
-                                    companyId: companyId,
+                                    companyId: _selectedCompany!.id,
                                     name: _nameController.text,
                                     description: _descriptionController.text,
                                     price: double.parse(_priceController.text),
