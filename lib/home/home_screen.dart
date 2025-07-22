@@ -11,11 +11,11 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFD),
       appBar: const CustomAppBar(title: 'Services'),
-      body: Center( // Wrap the Column with Center
-        child: SingleChildScrollView( // Add scrollable for small screens
+      body: Center( 
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            mainAxisSize: MainAxisSize.min, // Important for centering
+            mainAxisSize: MainAxisSize.min,
             children: [
               // list company
               ServiceButton(
@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.pushNamed(context, Routes.createService);
                 },
               ),
-              const SizedBox(height: 24), // Extra space at bottom
+              const SizedBox(height: 24),
             ],
           ),
         ),
