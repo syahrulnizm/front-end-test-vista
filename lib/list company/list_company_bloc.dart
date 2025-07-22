@@ -63,7 +63,7 @@ class ListCompanyBloc extends ChangeNotifier {
     error = null;
     notifyListeners();
     try {
-      final response = await http.get(Uri.parse('http://192.168.0.87:3000/companies'));
+      final response = await http.get(Uri.parse('http://192.168.0.87:3000/companies')); //tukar ip address 192.168.0.87 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         companies = data.map((c) => Company.fromJson(c)).toList();
