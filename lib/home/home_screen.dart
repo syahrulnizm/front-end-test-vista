@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:front_end_test_vista/widgets/appbar.dart';
 import 'package:front_end_test_vista/widgets/button.dart';
+import 'package:front_end_test_vista/routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,7 +24,7 @@ class HomeScreen extends StatelessWidget {
                 title: 'List Company',
                 subtitle: 'Show a list of services under each company',
                 onPressed: () {
-                  // Handle button press
+                  Navigator.pushNamed(context, Routes.listCompany);
                 },
               ),
               const SizedBox(height: 16),
@@ -35,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                 title: 'Create Company',
                 subtitle: 'Form to create a new company',
                 onPressed: () {
-                  // Handle button press
+                  Navigator.pushNamed(context, Routes.createCompany);
                 },
               ),
               const SizedBox(height: 16),
@@ -47,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                 title: 'Create Service',
                 subtitle: 'Form to create a new service',
                 onPressed: () {
-                  // Handle button press
+                  Navigator.pushNamed(context, Routes.createService);
                 },
               ),
               const SizedBox(height: 24), // Extra space at bottom

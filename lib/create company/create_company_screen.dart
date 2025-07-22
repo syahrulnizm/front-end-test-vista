@@ -25,22 +25,36 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFD),
       appBar: const CustomAppBar(title: 'Create Company'),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
+              // company name field
               TextFormField(
                 controller: _nameController,
                 decoration: InputDecoration(
                   labelText: 'Company Name',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey[300]!),
-                  ),
+                  labelStyle: TextStyle(color: Colors.grey[600]),
                   filled: true,
                   fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: Colors.grey[200]!, width: 1),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: Colors.grey[200]!, width: 1),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 18,
+                  ),
+                ),
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey[800],
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -50,16 +64,31 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
                 },
               ),
               const SizedBox(height: 16),
+              
+              // registration mumber field
               TextFormField(
                 controller: _registrationController,
                 decoration: InputDecoration(
                   labelText: 'Registration Number',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey[300]!),
-                  ),
+                  labelStyle: TextStyle(color: Colors.grey[600]),
                   filled: true,
                   fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: Colors.grey[200]!, width: 1),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: Colors.grey[200]!, width: 1),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 18,
+                  ),
+                ),
+                style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.grey[800],
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -69,21 +98,31 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
                 },
               ),
               const SizedBox(height: 32),
+              
+              // submit button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Company created successfully')),
+                        SnackBar(
+                          content: const Text('Company created successfully'),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
                       );
                     }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF1976D2),
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 18),
+                    elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                   child: const Text(
@@ -91,7 +130,6 @@ class _CreateCompanyScreenState extends State<CreateCompanyScreen> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white,
                     ),
                   ),
                 ),
