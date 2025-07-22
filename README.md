@@ -1,16 +1,19 @@
-# front_end_test_vista
+Steps to Run
 
-A new Flutter project.
+1. **Install dependencies:**
 
-## Getting Started
+   flutter pub get
 
-This project is a starting point for a Flutter application.
+3. **Update the API IP Address:**
 
-A few resources to get you started if this is your first Flutter project:
+   - The app communicates with a backend server using an IP address hardcoded in the BLoC files (inside `lib/create company/`, `lib/create service/`, etc.).
+   - Each emulator/device may require a different IP address to access your local backend.
+   - To find your local IP address:
+     1. Open Command Prompt.
+     2. Run: ipconfig
+     3. Look for the `IPv4 Address` under your active network adapter (e.g., `192.168.x.x`).
+   - Open the relevant BLoC Dart files and replace the existing IP address with your current local IP.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+4. **Run the app:**
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   flutter run
